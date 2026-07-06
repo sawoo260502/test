@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>함께 걷는 발걸음 | 유기견 돌봄 캠페인</title>
+
+  <style>
+    /* =========================
+       CSS : 디자인
+       ========================= */
+
+    :root {
+      --bg: #fffaf2;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #5f6b7a;
+      --primary: #f59e0b;
+      --primary-dark: #b45309;
+      --accent: #2563eb;
+      --danger: #dc2626;
+      --border: #e5e7eb;
+      --focus: #111827;
+      --radius: 22px;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      --font-size: 16px;
+    }
+
+    body.high-contrast {
+      --bg: #000000;
+      --card: #111111;
+      --text: #ffffff;
+      --muted: #f3f4f6;
+      --primary: #ffff00;
+      --primary-dark: #ffcc00;
+      --accent: #00ffff;
+      --border: #ffffff;
+      --focus: #ffff00;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      font-size: var(--font-size);
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -50px;
+      left: 16px;
+      background: var(--focus);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 10px;
+      z-index: 1000;
+    }
+
+    .skip-link:focus {
+      top: 16px;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button,
+    a,
+    input,
+    textarea,
+    select {
+      outline-offset: 4px;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    select:focus-visible {
+      outline: 4px solid var(--focus);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 250, 242, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    body.high-contrast header {
+      background: #000;
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 1.1rem;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #111;
+      font-size: 1.4rem;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 14px;
+      padding: 0;
+      margin: 0;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--text);
+      padding: 8px 10px;
+      border-radius: 999px;
+    }
+
+    nav a:hover {
+      background: rgba(245, 158, 11, 0.18);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 2px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 70px 20px 40px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 4.7rem);
+      line-height: 1.1;
+      margin: 20px 0;
+      letter-spacing: -0.05em;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 20px;
+      cursor: pointer;
+      font-weight: 900;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #111;
+    }
+
+    .btn-secondary {
+      background: var(--card);
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 34px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .dog-illustration {
+      min-height: 330px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 70% 20%, rgba(37, 99, 235, 0.16), transparent 28%),
+        linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(255, 255, 255, 0.8));
+      display: grid;
+      place-items: center;
+      text-align: center;
+      border: 2px dashed var(--primary);
+    }
+
+    body.high-contrast .dog-illustration {
+      background: #111;
+    }
+
+    .dog-face {
+      font-size: 8rem;
+      line-height: 1;
+    }
+
+    .dog-illustration strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 1.2rem;
+    }
+
+    section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 56px 20px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      margin: 0 0 10px;
+      letter-spacing: -0.04em;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      margin: 0 0 28px;
+      max-width: 760px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 1.25rem;
+    }
+
+    .icon {
+      width: 52px;
+      height: 52px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(245, 158, 11, 0.2);
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+    }
+
+    .accessibility-panel {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    .control-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .small-btn {
+      border: 2px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .small-btn[aria-pressed="true"] {
+      background: var(--primary);
+      color: #111;
+      border-color: var(--primary-dark);
+    }
+
+    .progress-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .progress {
+      width: 100%;
+      height: 28px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+    }
+
+    .progress-bar {
+      width: 62%;
+      height: 100%;
+      background: var(--primary);
+      display: grid;
+      place-items: center;
+      color: #111;
+      font-weight: 900;
+      transition: width 0.4s ease;
+    }
+
+    .dog-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .dog-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .dog-photo {
+      height: 170px;
+      display: grid;
+      place-items: center;
+      font-size: 4.5rem;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(37, 99, 235, 0.16));
+    }
+
+    body.high-contrast .dog-photo {
+      background: #222;
+    }
+
+    .dog-info {
+      padding: 18px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: rgba(37, 99, 235, 0.12);
+      color: var(--accent);
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 900;
+      margin-right: 6px;
+    }
+
+    body.high-contrast .tag {
+      background: #000;
+      border: 1px solid #fff;
+      color: #00ffff;
+    }
+
+    .filter-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .form-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    label {
+      font-weight: 900;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 14px;
+      border: 2px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .helper {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: -10px;
+      margin-bottom: 14px;
+    }
+
+    .error {
+      color: var(--danger);
+      font-weight: 900;
+      margin-top: -10px;
+      margin-bottom: 12px;
+      display: none;
+    }
+
+    .success {
+      display: none;
+      background: #dcfce7;
+      color: #14532d;
+      padding: 14px;
+      border-radius: 14px;
+      font-weight: 900;
+      margin-top: 16px;
+    }
+
+    body.high-contrast .success {
+      background: #000;
+      color: #ffff00;
+      border: 2px solid #ffff00;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 34px 20px;
+      background: #1f2937;
+      color: white;
+      text-align: center;
+    }
+
+    footer a {
+      color: #fde68a;
+      font-weight: 900;
+    }
+
+    @media (max-width: 850px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .grid,
+      .dog-list {
+        grid-template-columns: 1fr;
+      }
+
+      .menu-btn {
+        display: inline-flex;
+      }
+
+      nav ul {
+        display: none;
+        position: absolute;
+        top: 72px;
+        left: 20px;
+        right: 20px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 16px;
+        flex-direction: column;
+        align-items: stretch;
+        box-shadow: var(--shadow);
+      }
+
+      nav ul.open {
+        display: flex;
+      }
+
+      nav a {
+        display: block;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =========================
+       HTML : 구조
+       ========================= -->
+
+  <a href="#main" class="skip-link">본문으로 바로가기</a>
+
+  <header>
+    <div class="nav">
+      <a href="#" class="logo" aria-label="함께 걷는 발걸음 홈으로 이동">
+        <span class="logo-icon" aria-hidden="true">🐾</span>
+        함께 걷는 발걸음
+      </a>
+
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mainMenu">
+        메뉴 열기
+      </button>
+
+      <nav aria-label="주요 메뉴">
+        <ul id="mainMenu">
+          <li><a href="#about">캠페인 소개</a></li>
+          <li><a href="#universal">유니버셜 디자인</a></li>
+          <li><a href="#dogs">보호견 보기</a></li>
+          <li><a href="#join">참여하기</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div>
+        <span class="badge">🐶 유기견 돌봄 캠페인</span>
+        <h1 id="heroTitle">작은 관심이 한 생명의 내일이 됩니다.</h1>
+        <p>
+          유기견에게 필요한 것은 거창한 도움이 아니라,
+          따뜻한 시선, 책임 있는 입양, 꾸준한 돌봄입니다.
+          누구나 쉽게 참여할 수 있는 캠페인 사이트입니다.
+        </p>
+
+        <div class="button-group">
+          <a href="#join" class="btn btn-primary">캠페인 참여하기</a>
+          <a href="#dogs" class="btn btn-secondary">보호견 만나보기</a>
+        </div>
+      </div>
+
+      <div class="hero-card" aria-label="유기견 캠페인 대표 이미지">
+        <div class="dog-illustration">
+          <div>
+            <div class="dog-face" aria-hidden="true">🐕</div>
+            <strong>사지 말고, 가족이 되어주세요.</strong>
+            <p>입양은 생명을 살리는 선택입니다.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="accessTitle">
+      <div class="accessibility-panel">
+        <div>
+          <h2 id="accessTitle" style="margin:0;">접근성 설정</h2>
+          <p style="margin:4px 0 0; color:var(--muted);">
+            글자 크기와 화면 대비를 직접 조절할 수 있습니다.
+          </p>
+        </div>
+
+        <div class="control-group" aria-label="접근성 조절 버튼">
+          <button class="small-btn" id="fontDown">글자 작게</button>
+          <button class="small-btn" id="fontUp">글자 크게</button>
+          <button class="small-btn" id="contrastBtn" aria-pressed="false">고대비 모드</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" aria-labelledby="aboutTitle">
+      <h2 class="section-title" id="aboutTitle">캠페인 소개</h2>
+      <p class="section-desc">
+        이 캠페인은 유기견 보호, 책임 입양, 물품 후원, 봉사 참여를 알리기 위해 만들어졌습니다.
+        학생, 교사, 학부모, 지역사회 누구나 쉽게 이해하고 참여할 수 있도록 구성했습니다.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <div class="icon" aria-hidden="true">🏠</div>
+          <h3>임시 보호</h3>
+          <p>보호소의 공간 부족 문제를 줄이고, 강아지가 안정적인 환경에서 지낼 수 있도록 돕습니다.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">🥣</div>
+          <h3>물품 후원</h3>
+          <p>사료, 배변패드, 담요, 장난감 등 보호견에게 필요한 물품을 함께 모읍니다.</p>
+        </article>
+
+        <article class="card">
+          <div class="icon" aria-hidden="true">🤝</div>
+          <h3>책임 입양</h3>
+          <p>충동적인 선택이 아닌, 끝까지 함께할 수 있는 책임 있는 입양 문화를 만듭니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="universal" aria-labelledby="universalTitle">
+      <h2 class="section-title" id="universalTitle">적용된 유니버셜 디자인</h2>
+      <p class="section-desc">
+        다양한 사용자가 편하게 이용할 수 있도록 접근성과 사용성을 고려했습니다.
+      </p>
+
+      <div class="grid">
+        <article class="card">
+          <h3>명확한 구조</h3>
+          <p>header, nav, main, section, article, footer 등 의미 있는 HTML 태그를 사용했습니다.</p>
+        </article>
+
+        <article class="card">
+          <h3>키보드 접근성</h3>
+          <p>마우스 없이 Tab 키로 메뉴와 버튼, 입력창을 이동할 수 있습니다.</p>
+        </article>
+
+        <article class="card">
+          <h3>고대비 모드</h3>
+          <p>시력이 약한 사용자도 내용을 보기 쉽도록 고대비 화면을 제공합니다.</p>
+        </article>
+
+        <article class="card">
+          <h3>글자 크기 조절</h3>
+          <p>사용자가 직접 글자 크기를 키우거나 줄일 수 있습니다.</p>
+        </article>
+
+        <article class="card">
+          <h3>쉬운 문장</h3>
+          <p>어려운 표현을 줄이고 누구나 이해하기 쉬운 문장으로 내용을 구성했습니다.</p>
+        </article>
+
+        <article class="card">
+          <h3>실시간 안내</h3>
+          <p>폼 작성 오류나 완료 메시지를 화면과 보조기기에 함께 전달하도록 만들었습니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="progressTitle">
+      <h2 class="section-title" id="progressTitle">이번 달 캠페인 목표</h2>
+      <p class="section-desc">
+        사료 100kg 모으기를 목표로 진행 중입니다. 버튼을 눌러 후원 참여 수치를 올려볼 수 있습니다.
+      </p>
+
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span>사료 모금 현황</span>
+          <span id="progressText">62kg / 100kg</span>
+        </div>
+
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62" aria-label="사료 모금 진행률">
+          <div class="progress-bar" id="progressBar">62%</div>
+        </div>
+
+        <br />
+        <button class="btn btn-primary" id="donateBtn">사료 5kg 후원하기</button>
+      </div>
+    </section>
+
+    <section id="dogs" aria-labelledby="dogsTitle">
+      <h2 class="section-title" id="dogsTitle">보호견 만나보기</h2>
+      <p class="section-desc">
+        아래 버튼을 눌러 보호견의 성격별로 살펴볼 수 있습니다.
+      </p>
+
+      <div class="filter-box" aria-label="보호견 필터">
+        <button class="small-btn filter-btn" data-filter="all" aria-pressed="true">전체</button>
+        <button class="small-btn filter-btn" data-filter="calm" aria-pressed="false">차분함</button>
+        <button class="small-btn filter-btn" data-filter="active" aria-pressed="false">활발함</button>
+        <button class="small-btn filter-btn" data-filter="friendly" aria-pressed="false">사람 좋아함</button>
+      </div>
+
+      <div class="dog-list" id="dogList">
+        <article class="dog-card" data-type="friendly">
+          <div class="dog-photo" role="img" aria-label="웃고 있는 강아지 그림">🐶</div>
+          <div class="dog-info">
+            <h3>초코</h3>
+            <span class="tag">사람 좋아함</span>
+            <p>사람 곁에 있는 것을 좋아하고 산책을 즐기는 친구입니다.</p>
+          </div>
+        </article>
+
+        <article class="dog-card" data-type="calm">
+          <div class="dog-photo" role="img" aria-label="차분한 강아지 그림">🐕‍🦺</div>
+          <div class="dog-info">
+            <h3>구름</h3>
+            <span class="tag">차분함</span>
+            <p>조용한 환경을 좋아하며 천천히 마음을 여는 친구입니다.</p>
+          </div>
+        </article>
+
+        <article class="dog-card" data-type="active">
+          <div class="dog-photo" role="img" aria-label="활발한 강아지 그림">🦮</div>
+          <div class="dog-info">
+            <h3>콩이</h3>
+            <span class="tag">활발함</span>
+            <p>놀이와 산책을 좋아하며 에너지가 많은 친구입니다.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="join" aria-labelledby="joinTitle">
+      <h2 class="section-title" id="joinTitle">캠페인 참여 신청</h2>
+      <p class="section-desc">
+        아래 양식을 작성하면 캠페인 참여 의사를 남길 수 있습니다.
+      </p>
+
+      <form class="form-box" id="joinForm" novalidate>
+        <label for="name">이름</label>
+        <input type="text" id="name" name="name" autocomplete="name" aria-describedby="nameHelp nameError" />
+        <p class="helper" id="nameHelp">예: 홍길동</p>
+        <p class="error" id="nameError">이름을 입력해 주세요.</p>
+
+        <label for="type">참여 방법</label>
+        <select id="type" name="type" aria-describedby="typeError">
+          <option value="">선택해 주세요</option>
+          <option value="물품 후원">물품 후원</option>
+          <option value="봉사 참여">봉사 참여</option>
+          <option value="입양 상담">입양 상담</option>
+          <option value="캠페인 홍보">캠페인 홍보</option>
+        </select>
+        <p class="error" id="typeError">참여 방법을 선택해 주세요.</p>
+
+        <label for="message">남기고 싶은 말</label>
+        <textarea id="message" name="message" placeholder="예: 사료 후원에 참여하고 싶습니다."></textarea>
+
+        <button type="submit" class="btn btn-primary">신청하기</button>
+
+        <div class="success" id="successMsg" role="status" aria-live="polite">
+          신청이 완료되었습니다. 따뜻한 참여 감사합니다!
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>함께 걷는 발걸음</strong> | 유기견 돌봄 캠페인</p>
+    <p>문의: <a href="mailto:campaign@example.com">campaign@example.com</a></p>
+  </footer>
+
+  <script>
+    /* =========================
+       JavaScript : 기능
+       ========================= */
+
+    const menuBtn = document.getElementById("menuBtn");
+    const mainMenu = document.getElementById("mainMenu");
+
+    menuBtn.addEventListener("click", () => {
+      const isOpen = mainMenu.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", isOpen);
+      menuBtn.textContent = isOpen ? "메뉴 닫기" : "메뉴 열기";
+    });
+
+    const fontUp = document.getElementById("fontUp");
+    const fontDown = document.getElementById("fontDown");
+    const contrastBtn = document.getElementById("contrastBtn");
+
+    let currentFontSize = 16;
+
+    fontUp.addEventListener("click", () => {
+      if (currentFontSize < 22) {
+        currentFontSize += 2;
+        document.documentElement.style.setProperty("--font-size", currentFontSize + "px");
+      }
+    });
+
+    fontDown.addEventListener("click", () => {
+      if (currentFontSize > 14) {
+        currentFontSize -= 2;
+        document.documentElement.style.setProperty("--font-size", currentFontSize + "px");
+      }
+    });
+
+    contrastBtn.addEventListener("click", () => {
+      const isHighContrast = document.body.classList.toggle("high-contrast");
+      contrastBtn.setAttribute("aria-pressed", isHighContrast);
+      contrastBtn.textContent = isHighContrast ? "기본 화면으로" : "고대비 모드";
+    });
+
+    const donateBtn = document.getElementById("donateBtn");
+    const progressBar = document.getElementById("progressBar");
+    const progressText = document.getElementById("progressText");
+    const progress = document.querySelector(".progress");
+
+    let foodAmount = 62;
+    const goal = 100;
+
+    donateBtn.addEventListener("click", () => {
+      if (foodAmount < goal) {
+        foodAmount += 5;
+
+        if (foodAmount > goal) {
+          foodAmount = goal;
+        }
+
+        const percent = Math.round((foodAmount / goal) * 100);
+
+        progressBar.style.width = percent + "%";
+        progressBar.textContent = percent + "%";
+        progressText.textContent = `${foodAmount}kg / ${goal}kg`;
+        progress.setAttribute("aria-valuenow", percent);
+
+        if (foodAmount === goal) {
+          donateBtn.textContent = "목표 달성 완료";
+          donateBtn.disabled = true;
+        }
+      }
+    });
+
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const dogCards = document.querySelectorAll(".dog-card");
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+
+        filterButtons.forEach((btn) => {
+          btn.setAttribute("aria-pressed", "false");
+        });
+
+        button.setAttribute("aria-pressed", "true");
+
+        dogCards.forEach((card) => {
+          if (filter === "all" || card.dataset.type === filter) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+    });
+
+    const joinForm = document.getElementById("joinForm");
+    const nameInput = document.getElementById("name");
+    const typeInput = document.getElementById("type");
+    const nameError = document.getElementById("nameError");
+    const typeError = document.getElementById("typeError");
+    const successMsg = document.getElementById("successMsg");
+
+    joinForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      let isValid = true;
+
+      nameError.style.display = "none";
+      typeError.style.display = "none";
+      successMsg.style.display = "none";
+
+      nameInput.removeAttribute("aria-invalid");
+      typeInput.removeAttribute("aria-invalid");
+
+      if (nameInput.value.trim() === "") {
+        nameError.style.display = "block";
+        nameInput.setAttribute("aria-invalid", "true");
+        isValid = false;
+      }
+
+      if (typeInput.value === "") {
+        typeError.style.display = "block";
+        typeInput.setAttribute("aria-invalid", "true");
+        isValid = false;
+      }
+
+      if (!isValid) {
+        const firstError = document.querySelector('[aria-invalid="true"]');
+        firstError.focus();
+        return;
+      }
+
+      successMsg.style.display = "block";
+      joinForm.reset();
+    });
+  </script>
+</body>
+</html>
